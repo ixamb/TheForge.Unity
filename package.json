@@ -1,0 +1,11 @@
+{
+  "name": "com.ixamb.theforge",
+  "version": "1.0.0",
+  "displayName": "The Forge",
+  "description": "Core systems library for Unity projects",
+  "unity": "2021.3",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.2",
+    "com.unity.mobile.notifications": "2.4.3"
+  }
+}
