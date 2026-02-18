@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 namespace TheForge.Services.Scenes
 {
+    /// <summary>
+    /// A service that simplifies the usage of scene manipulation.
+    /// It is based on the basic <c>UnityEngine.SceneManagement</c> class group.
+    /// </summary>
     public sealed class SceneService : Singleton<SceneService, ISceneService>, ISceneService
     {
         private AsyncOperation _currentOperation;

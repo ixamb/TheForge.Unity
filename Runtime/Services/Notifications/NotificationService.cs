@@ -6,6 +6,10 @@ using Unity.Notifications;
 
 namespace TheForge.Services.Notifications
 {
+    /// <summary>
+    /// A service that simplifies the scheduling and triggering of local push notifications.
+    /// It is based on the <c>com.unity.mobile.notifications</c> package.
+    /// </summary>
     public sealed class NotificationService : Singleton<NotificationService, INotificationService>, INotificationService
     {
         [SerializeField] private NotificationServiceProperties notificationServiceProperties;
@@ -18,7 +22,7 @@ namespace TheForge.Services.Notifications
             args.AndroidChannelDescription = notificationServiceProperties.AndroidChannelDescription;
             NotificationCenter.Initialize(args);
         }
-
+        
         public IEnumerator RequestPermission(Action<NotificationsPermissionStatus> onRequestReturned)
         {
             var request = NotificationCenter.RequestPermission();

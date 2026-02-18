@@ -12,6 +12,11 @@ namespace TheForge.Services.LocalSave
         public Dictionary<string, object> Values = new(); 
     }
 
+    /// <summary>
+    /// A service designed to save and access data locally.
+    /// The goal of this service is to offer a more flexible alternative to PlayerPrefs and to be more focused on backup data.
+    /// The data will be saved in a JSON file. Upon initialization, the service creates a save.json script if one doesn't already exist.
+    /// </summary>
     public sealed class LocalSaveService : Singleton<LocalSaveService, ILocalSaveService>, ILocalSaveService
     {
         private const string FileName = "save.json";
@@ -22,6 +27,10 @@ namespace TheForge.Services.LocalSave
             Load();
         }
 
+        /// <summary>
+        /// Inserts an object into the input passed as a parameter.
+        /// Note that if an input with the same key already existed in the JSON, its content will be overwritten by the object passed as a parameter.
+        /// </summary>
         public void Set<T>(string key, T value, bool autoSave = true)
         {
             _container.Values[key] = value;
@@ -29,6 +38,9 @@ namespace TheForge.Services.LocalSave
                 Save();
         }
 
+        /// <summary>
+        /// Retrieves the JSON input with the key passed as a parameter. The input type must match the function object type.
+        /// </summary>
         // ReSharper disable Unity.PerformanceAnalysis
         public T Get<T>(string key, T defaultValue = default)
         {
@@ -51,6 +63,9 @@ namespace TheForge.Services.LocalSave
             }
         }
 
+        /// <summary>
+        /// Forces saving the JSON, useful if you did not enable automatic saving when calling <c>Set()</c>.
+        /// </summary>
         // ReSharper disable Unity.PerformanceAnalysis
         public void Save()
         {
@@ -60,6 +75,11 @@ namespace TheForge.Services.LocalSave
             Debug.Log($"Save successful: {path}");
         }
         
+        
+        /// <summary>
+        /// Deletes the whole saved data.
+        /// <remarks><b>The operation cannot be undone!</b></remarks>
+        /// </summary>
         public void Delete()
         {
             File.Delete(GetPath());
