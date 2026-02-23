@@ -1,9 +1,11 @@
 {
-    "name": "TheForge.Tests",
+    "name": "TheForge.SingletonServiceTests",
     "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
         "TheForge.Runtime"
     ],
-    "includePlatforms": ["Editor"],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

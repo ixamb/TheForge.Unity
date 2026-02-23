@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TheForge.Services.Views
 {
     /// <inheritdoc cref="ViewService"/>
@@ -8,6 +10,9 @@ namespace TheForge.Services.Views
         
         /// <inheritdoc cref="ViewService.UnregisterView"/>
         void UnregisterView(IView view);
+
+        /// <inheritdoc cref="ViewService.GetActiveAndEnabledViews"/>
+        IEnumerable<IView> GetActiveAndEnabledViews();
         
         /// <inheritdoc cref="ViewService.GetView"/>
         IView GetView(string code);

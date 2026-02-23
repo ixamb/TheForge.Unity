@@ -6,54 +6,19 @@ using TheForge.Utils;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace TheForge.Tests
+namespace Tests.Services
 {
-    public class DelayerTests
+    public class ActionDelayerServiceTests : SingletonServiceTestBase<ActionDelayerService, IActionDelayerService>
     {
         private static readonly float[] FloatDelays = { 0.5f, 1f, 2f };
         private const float Tolerance = 0.05f;
-        
-        private GameObject _testGameObject;
-        private IActionDelayerService _service;
-        
-        [UnitySetUp]
-        public IEnumerator SetUp()
-        {
-            ActionDelayerService.ResetInstance();
-            yield return null;
-            
-            var existing = GameObject.Find("TestActionDelayerService");
-            if (existing != null)
-            {
-                Object.DestroyImmediate(existing);
-                yield return null;
-            }
-            
-            _testGameObject = new GameObject("TestActionDelayerService");
-            _service = _testGameObject.AddComponent<ActionDelayerService>();
-            yield return null;
-        }
-        
-        [UnityTearDown]
-        public IEnumerator TearDown()
-        {
-            if (_testGameObject != null)
-            {
-                Object.Destroy(_testGameObject);
-                _testGameObject = null;
-                _service = null;
-            }
-            
-            yield return null;
-            ActionDelayerService.ResetInstance();
-        }
         
         [UnityTest]
         public IEnumerator CreateDelayer_ShouldSuccess([ValueSource(nameof(FloatDelays))] float delay)
         {
             var delayCode = $"TestDelay_{delay}_{StringUtils.Random(8)}";
-            _service.Delay(delay, () => {}, delayCode);
-            Assert.IsNotNull(_service.Get(delayCode), $"Delayer '{delayCode}' should be registered");
+            Service.Delay(delay, () => {}, delayCode);
+            Assert.IsNotNull(Service.Get(delayCode), $"Delayer '{delayCode}' should be registered");
             yield return null;
         }
 
@@ -65,13 +30,13 @@ namespace TheForge.Tests
             var executed = false;
             var delayCode = $"TestDelay_{delay}_{StringUtils.Random(8)}";
             
-            _service.Delay(delay, () =>
+            Service.Delay(delay, () =>
             {
                 endTime = Time.realtimeSinceStartup - startTime;
                 executed = true;
             }, delayCode);
             
-            Assume.That(_service.Get(delayCode), Is.Not.Null, "Delayer should be registered");
+            Assume.That(Service.Get(delayCode), Is.Not.Null, "Delayer should be registered");
             
             yield return new WaitForSecondsRealtime(delay + 0.1f);
             Assert.IsTrue(executed, $"Action should execute after {delay}s");
@@ -82,15 +47,15 @@ namespace TheForge.Tests
         public IEnumerator CancelDelayerExecution_ShouldSuccess([ValueSource(nameof(FloatDelays))] float delay)
         {
             var delayCode = $"TestDelay_{delay}_{StringUtils.Random(8)}";
-            _service.Delay(delay, () => { }, delayCode);
+            Service.Delay(delay, () => { }, delayCode);
             
-            Assume.That(_service.Get(delayCode), Is.Not.Null, "Delayer should be registered");
+            Assume.That(Service.Get(delayCode), Is.Not.Null, "Delayer should be registered");
             
             yield return new WaitForSecondsRealtime(delay/2);
-            Assume.That(_service.Get(delayCode), Is.Not.Null, $"Delayer with {delay}s delay should execute after {delay}s");
-            _service.Cancel(delayCode);
+            Assume.That(Service.Get(delayCode), Is.Not.Null, $"Delayer with {delay}s delay should execute after {delay}s");
+            Service.Cancel(delayCode);
             yield return null;
-            Assert.IsNull(_service.Get(delayCode), "Delayer should be null");
+            Assert.IsNull(Service.Get(delayCode), "Delayer should be null");
         }
 
         [UnityTest]
@@ -102,16 +67,16 @@ namespace TheForge.Tests
             {
                 var delayCode = $"TestDelay_{delay}_{StringUtils.Random(8)}";
                 delayCodes.Add(delayCode);
-                _service.Delay(delay, () => { }, delayCode);
-                Assume.That(_service.Get(delayCode), Is.Not.Null, "Delayer should be registered");
+                Service.Delay(delay, () => { }, delayCode);
+                Assume.That(Service.Get(delayCode), Is.Not.Null, "Delayer should be registered");
             }
 
             yield return null;
-            _service.CancelAll();
+            Service.CancelAll();
             yield return null;
             foreach (var delayCode in delayCodes)
             {
-                Assert.IsNull(_service.Get(delayCode), "Delayer should be null");
+                Assert.IsNull(Service.Get(delayCode), "Delayer should be null");
             }
         }
         

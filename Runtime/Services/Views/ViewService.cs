@@ -42,6 +42,9 @@ namespace TheForge.Services.Views
             _views.Remove(viewCode);
         }
         
+        /// <summary>
+        /// Retrieve views based on their active and enabled property.
+        /// </summary>
         public IEnumerable<IView> GetActiveAndEnabledViews()
         {
             return _views.Values.Where(view => view.IsVisibleAndActive());
