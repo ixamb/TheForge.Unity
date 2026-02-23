@@ -8,7 +8,7 @@ using UnityEngine.TestTools;
 
 namespace Tests.Services
 {
-    public class ActionDelayerServiceTests : SingletonServiceTestBase<ActionDelayerService, IActionDelayerService>
+    public sealed class ActionDelayerServiceTests : SingletonServiceTestBase<ActionDelayerService, IActionDelayerService>
     {
         private static readonly float[] FloatDelays = { 0.5f, 1f, 2f };
         private const float Tolerance = 0.05f;

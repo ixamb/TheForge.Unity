@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 
 namespace Tests.Services
 {
-    public class ViewServiceTests : SingletonServiceTestBase<ViewService, IViewService>
+    public sealed class ViewServiceTests : SingletonServiceTestBase<ViewService, IViewService>
     {
         private const string DefaultMockViewCode = "Test_MockView";
         private const string FormatMockViewCode = "Test_MockView_{0}";

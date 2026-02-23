@@ -10,7 +10,7 @@ namespace TheForge.Services.Views
     {
         [SerializeField] protected string viewCode;
         [SerializeField] protected bool useAnimation;
-        [SerializeField] private bool keepViewDisplayed;
+        [SerializeField] protected bool keepViewDisplayed;
 
         public Action OnShow;
         public Action OnHide;
@@ -25,7 +25,10 @@ namespace TheForge.Services.Views
         
         protected virtual void Awake()
         {
-            ViewService.Instance.RegisterView(this);
+            if (ViewService.HasInstance())
+            {
+                ViewService.Instance.RegisterView(this);
+            }
             
             _canvasGroup = GetComponent<CanvasGroup>();
             _animator = useAnimation ? GetComponent<Animator>() : null;

@@ -34,7 +34,12 @@ namespace TheForge.Services
                 return _itInstance;
             }
         }
-        
+
+        public static bool HasInstance()
+        {
+            return _itInstance != null || FindAnyObjectByType<T>() != null;
+        }
+
         internal static void ResetInstance()
         {
             if (_instance != null)
