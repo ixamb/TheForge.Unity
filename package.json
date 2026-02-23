@@ -1,6 +1,6 @@
 {
   "name": "com.ixamb.theforge",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "The Forge",
   "description": "Core systems library for Unity projects",
   "unity": "2021.3",
