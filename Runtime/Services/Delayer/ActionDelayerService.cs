@@ -34,7 +34,7 @@ namespace TheForge.Services.Delayer
             var delayerCode = $"ActionDelayer_{(code == string.Empty ? Guid.NewGuid() : code)}";
             var actionDelayer = Instantiate(new GameObject(delayerCode).AddComponent<ActionDelayer>(), gameObject.transform);
             actionDelayer.Initialize(durationInSeconds, action, () => _actionDelayers.Remove(code));
-            _actionDelayers.Add(code, actionDelayer);
+            _actionDelayers[code] = actionDelayer;
         }
 
         /// <summary>

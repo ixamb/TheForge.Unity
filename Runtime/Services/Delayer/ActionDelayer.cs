@@ -32,7 +32,7 @@ namespace TheForge.Services.Delayer
             {
                 _action.Invoke();
                 _onDestroy.Invoke();
-                DestroyImmediate(gameObject);
+                Destroy(gameObject);
             }
         }
 
@@ -40,7 +40,7 @@ namespace TheForge.Services.Delayer
         {
             _run = false;
             _onDestroy.Invoke();
-            DestroyImmediate(gameObject);
+            Destroy(gameObject);
         }
     }
 }
