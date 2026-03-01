@@ -3,13 +3,16 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "TheForge.Runtime"
+        "TheForge.Runtime",
+        "VContainer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": ["nunit.framework.dll"],
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
     "autoReferenced": false,
     "defineConstraints": ["UNITY_INCLUDE_TESTS"],
     "versionDefines": [],

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TheForge.Services.Delayer
 {
-    public sealed class ActionDelayer : MonoBehaviour
+    public sealed class Delayer : MonoBehaviour
     {
         private Action _action;
         private Action _onDestroy;

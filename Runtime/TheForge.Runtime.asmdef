@@ -3,7 +3,8 @@
     "rootNamespace": "TheForge",
     "references": [
         "Unity.Notifications.Unified",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "VContainer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

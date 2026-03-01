@@ -10,13 +10,9 @@ namespace TheForge.Services.Scenes
     /// A service that simplifies the usage of scene manipulation.
     /// It is based on the basic <c>UnityEngine.SceneManagement</c> class group.
     /// </summary>
-    public sealed class SceneService : Singleton<SceneService, ISceneService>, ISceneService
+    public sealed class SceneService : ISceneService
     {
         private AsyncOperation _currentOperation;
-
-        protected override void Init()
-        {
-        }
 
         public async Task LoadSceneAsync(string sceneName, LoadSceneMode loadMode = LoadSceneMode.Additive)
         {

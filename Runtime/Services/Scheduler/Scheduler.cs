@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TheForge.Services.Scheduler
 {
-    public sealed class ActionScheduler : MonoBehaviour
+    public sealed class Scheduler : MonoBehaviour
     {
         private Action _action;
         private float _duration;

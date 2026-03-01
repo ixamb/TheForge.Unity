@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 namespace TheForge.Services.Scenes
 {
     /// <inheritdoc cref="SceneService"/>
-    public interface ISceneService : ISingleton
+    public interface ISceneService
     {
         /// <inheritdoc cref="SceneService.LoadSceneAsync(string, LoadSceneMode)"/>
         Task LoadSceneAsync(string sceneName, LoadSceneMode loadMode = LoadSceneMode.Additive);

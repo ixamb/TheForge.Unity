@@ -1,48 +1,43 @@
-using System.Collections;
 using System.Linq;
 using NUnit.Framework;
 using TheForge.Services.Views;
-using UnityEngine.TestTools;
 
 namespace Tests.Services
 {
-    public sealed class ViewServiceTests : SingletonServiceTestBase<ViewService, IViewService>
+    public sealed class ViewServiceTests : SingletonServiceTestBase<IViewService, ViewService>
     {
         private const string DefaultMockViewCode = "Test_MockView";
         private const string FormatMockViewCode = "Test_MockView_{0}";
         private const string SpaceMockViewCode = "   ";
         
-        [UnityTest]
-        public IEnumerator RegisterView_ShouldSuccess()
+        [Test]
+        public void RegisterView_ShouldSuccess()
         {
             var mockView = new MockView(DefaultMockViewCode);
             Service.RegisterView(mockView);
             Assert.IsNotNull(Service.GetView(DefaultMockViewCode), "Service.GetView(mockViewCode) != null");
-            yield return null;
         }
 
-        [UnityTest]
-        public IEnumerator RegisterView_ShouldFail()
+        [Test]
+        public void RegisterView_ShouldFail()
         {
             var mockView = new MockView(SpaceMockViewCode);
             Service.RegisterView(mockView);
             Assert.IsNull(Service.GetView(SpaceMockViewCode), "Service.GetView(mockViewCode) != null");
-            yield return null;
         }
         
-        [UnityTest]
-        public IEnumerator UnregisterView_ShouldSuccess()
+        [Test]
+        public void UnregisterView_ShouldSuccess()
         {
             var mockView = new MockView(DefaultMockViewCode);
             Service.RegisterView(mockView);
             Assume.That(Service.GetView(DefaultMockViewCode), Is.Not.Null);
             Service.UnregisterView(mockView);
             Assert.IsNull(Service.GetView(DefaultMockViewCode), "Service.GetView(mockViewCode) != null");
-            yield return null;
         }
 
-        [UnityTest]
-        public IEnumerator GetActiveAndEnabledViews_ShouldSuccess()
+        [Test]
+        public void GetActiveAndEnabledViews_ShouldSuccess()
         {
             var activeViewsArray = new[] {false, true, true, false};
             for (var i = 0; i < activeViewsArray.Length; i++)
@@ -57,17 +52,15 @@ namespace Tests.Services
             {
                 Assert.IsTrue(activeView.IsVisibleAndActive());
             }
-            yield return null;
         }
 
-        [UnityTest]
-        public IEnumerator GetTypedView_ShouldSuccess()
+        [Test]
+        public void GetTypedView_ShouldSuccess()
         {
             var mockView = new MockView(DefaultMockViewCode);
             Service.RegisterView(mockView);
             Assume.That(Service.GetView(DefaultMockViewCode), Is.Not.Null);
-            Assert.AreEqual(mockView.GetType(), Service.GetView<MockView>(DefaultMockViewCode).GetType());
-            yield return null;
+            Assert.AreEqual(mockView.GetType(), Service.GetView<MockView>(DefaultMockViewCode)?.GetType());
         }
 
         private class MockView : IView

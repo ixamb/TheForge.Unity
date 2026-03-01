@@ -1,6 +1,7 @@
 using System;
 using TheForge.Services.Views;
 using UnityEngine;
+using VContainer;
 
 namespace TheForge.Systems.Actions
 {
@@ -11,17 +12,20 @@ namespace TheForge.Systems.Actions
         
         [SerializeField] private ViewActionType viewActionType;
         [SerializeField] private string viewCode;
+
+        private IViewService _viewService;
         
+        public override void Init(IObjectResolver resolver)
+        {
+            _viewService = resolver.Resolve<IViewService>();
+        }
+
         protected override void Executable()
         {
-            var view = ViewService.Instance.GetView(viewCode);
-            if (view is null)
-                return;
-
             switch (viewActionType)
             {
-                case ViewActionType.Show: view.ShowView(); break;
-                case ViewActionType.Hide: view.HideView(); break;
+                case ViewActionType.Show: _viewService.GetView(viewCode)?.ShowView(); break;
+                case ViewActionType.Hide: _viewService.GetView(viewCode)?.HideView(); break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }

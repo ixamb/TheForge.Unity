@@ -1,7 +1,7 @@
 namespace TheForge.Services.LocalSave
 {
     /// <inheritdoc cref="LocalSaveService"/>
-    public interface ILocalSaveService : ISingleton
+    public interface ILocalSaveService
     {
         /// <inheritdoc cref="LocalSaveService.Set"/>
         void Set<T>(string key, T value, bool autoSave = true);

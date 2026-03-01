@@ -17,12 +17,12 @@ namespace TheForge.Services.LocalSave
     /// The goal of this service is to offer a more flexible alternative to PlayerPrefs and to be more focused on backup data.
     /// The data will be saved in a JSON file. Upon initialization, the service creates a save.json script if one doesn't already exist.
     /// </summary>
-    public sealed class LocalSaveService : Singleton<LocalSaveService, ILocalSaveService>, ILocalSaveService
+    public sealed class LocalSaveService : ILocalSaveService
     {
         private const string FileName = "save.json";
         private SaveContainer _container;
-
-        protected override void Init()
+        
+        public LocalSaveService()
         {
             Load();
         }

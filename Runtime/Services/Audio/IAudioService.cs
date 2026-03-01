@@ -3,7 +3,7 @@ using TheForge.Services.Audio.Dto;
 namespace TheForge.Services.Audio
 {
     /// <inheritdoc cref="AudioService"/>
-    public interface IAudioService : ISingleton
+    public interface IAudioService
     {
         /// <inheritdoc cref="AudioService.LoadAudio"/>
         void LoadAudio(AudioLoadDto audioLoadDto);

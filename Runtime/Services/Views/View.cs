@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TheForge.Extensions;
 using UnityEngine;
+using VContainer;
 
 namespace TheForge.Services.Views
 {
@@ -17,19 +18,21 @@ namespace TheForge.Services.Views
         
         private CanvasGroup _canvasGroup;
         private Animator _animator;
-
-        private readonly List<ViewComponent<ComponentDto>> _spawnedComponents = new();
         
         private static readonly int Show = Animator.StringToHash("Show");
         private static readonly int Hide = Animator.StringToHash("Hide");
         
+        private IViewService _viewService;
+        
+        [Inject]
+        public void Construct(IViewService viewService)
+        {
+            _viewService = viewService;
+            _viewService.RegisterView(this);
+        }
+        
         protected virtual void Awake()
         {
-            if (ViewService.HasInstance())
-            {
-                ViewService.Instance.RegisterView(this);
-            }
-            
             _canvasGroup = GetComponent<CanvasGroup>();
             _animator = useAnimation ? GetComponent<Animator>() : null;
 
@@ -87,16 +90,6 @@ namespace TheForge.Services.Views
             return _canvasGroup.alpha > 0
                    && _canvasGroup.interactable
                    && _canvasGroup.blocksRaycasts;
-        }
-
-        protected void ClearSpawnedComponents()
-        {
-            _spawnedComponents.DestroyAndClear();
-        }
-
-        protected void AddSpawnedComponent(ViewComponent<ComponentDto> component)
-        {
-            _spawnedComponents.Add(component);
         }
 
         public string GetCode() => viewCode;

@@ -8,13 +8,9 @@ namespace TheForge.Services.Views
     /// If the service is configured, each view present in the scene is registered with it upon initialization.
     /// The user can then access these views via getter functions, without using references.
     /// </summary>
-    public sealed class ViewService : Singleton<ViewService, IViewService>, IViewService
+    public sealed class ViewService : IViewService
     {
         private readonly Dictionary<string, IView> _views = new();
-
-        protected override void Init()
-        {
-        }
 
         /// <summary>
         /// Registers a specified view.
@@ -70,6 +66,14 @@ namespace TheForge.Services.Views
                 return view as TIView;
             }
             return null;
+        }
+        
+        /// <summary>
+        /// Retrieves a strongly typed view based on its type.
+        /// </summary>
+        public TIView GetView<TIView>() where TIView : class, IView
+        {
+            return _views.Values.OfType<TIView>().FirstOrDefault();
         }
     }
 }

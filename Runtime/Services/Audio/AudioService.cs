@@ -3,6 +3,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using TheForge.Services.Audio.Dto;
 using UnityEngine;
+using VContainer;
 
 namespace TheForge.Services.Audio
 {
@@ -12,19 +13,24 @@ namespace TheForge.Services.Audio
     /// Audio sources can be of type Music and SFX, and can be configured independently according to this type.
     /// <remarks>A configuration file must be created to list all audio files playable by the service, along with a key/AudioClip pair.</remarks>
     /// </summary>
-    public sealed class AudioService : Singleton<AudioService, IAudioService>, IAudioService
+    public sealed class AudioService : IAudioService
     {
-        [SerializeField] private AudioServiceProperties properties;
+        private readonly IObjectResolver _container;
+        private readonly AudioServiceProperties _properties;
         
         private readonly List<AudioSourceEntry> _audioSourceEntries = new();
 
-        protected override void Init()
+        public AudioService(IObjectResolver container, AudioServiceProperties properties)
         {
-            var audioObject = Instantiate(new GameObject("AudioObject"), transform);
-            for (uint i = 0; i < properties.CanalsCount; i++)
+            _container = container;
+            _properties = properties;
+            
+            for (var i = 0; i < _properties.CanalsCount; i++)
             {
-                var source = audioObject.AddComponent<AudioSource>();
-                _audioSourceEntries.Add(new AudioSourceEntry(source));
+                var audioSourceObject = new GameObject($"AudioObject_{i+1}");
+                var audioSource = audioSourceObject.AddComponent<AudioSource>();
+                _container.Inject(audioSource);
+                _audioSourceEntries.Add(new AudioSourceEntry(audioSource));
             }
         }
 
@@ -35,7 +41,7 @@ namespace TheForge.Services.Audio
         /// </summary>
         public void LoadAudio(AudioLoadDto audioLoadDto)
         {
-            var clipEntry = properties.GetAudioClipEntry(audioLoadDto.Code);
+            var clipEntry = _properties.GetAudioClipEntry(audioLoadDto.Code);
             if (clipEntry?.AudioClip is null)
                 return;
             
