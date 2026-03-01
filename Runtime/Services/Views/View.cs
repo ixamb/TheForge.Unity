@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using TheForge.Extensions;
 using UnityEngine;
 using VContainer;
 
@@ -22,13 +20,13 @@ namespace TheForge.Services.Views
         private static readonly int Show = Animator.StringToHash("Show");
         private static readonly int Hide = Animator.StringToHash("Hide");
         
-        private IViewService _viewService;
+        protected IViewService ViewService;
         
         [Inject]
         public void Construct(IViewService viewService)
         {
-            _viewService = viewService;
-            _viewService.RegisterView(this);
+            ViewService = viewService;
+            ViewService.RegisterView(this);
         }
         
         protected virtual void Awake()
