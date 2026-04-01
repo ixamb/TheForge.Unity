@@ -40,7 +40,7 @@ namespace TheForge.Services.Views
             }
         }
 
-        public void ShowView()
+        void IView.ShowView()
         {
             if (useAnimation)
             {
@@ -53,7 +53,7 @@ namespace TheForge.Services.Views
             OnShow?.Invoke();
         }
 
-        public void HideView()
+        void IView.HideView()
         {
             if (keepViewDisplayed)
                 return;
@@ -83,13 +83,13 @@ namespace TheForge.Services.Views
             _canvasGroup.blocksRaycasts = false;
         }
 
-        public bool IsVisibleAndActive()
+        bool IView.IsVisibleAndActive()
         {
             return _canvasGroup.alpha > 0
                    && _canvasGroup.interactable
                    && _canvasGroup.blocksRaycasts;
         }
 
-        public string GetCode() => viewCode;
+        string IView.GetCode() => viewCode;
     }
 }
