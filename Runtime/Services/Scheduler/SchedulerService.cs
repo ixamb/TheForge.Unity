@@ -22,7 +22,7 @@ namespace TheForge.Services.Scheduler
         /// Creates a scheduler that will trigger an action after an elapsed time specified in the parameter.<br />
         /// It provides the possibility to choose an end-delay action (repeat the action, pause for further usage, destroy it for one-shot usage)
         /// </summary>
-        public Scheduler CreateScheduler(string code, Action action, float durationInSeconds, SchedulerEndAction endAction)
+        Scheduler ISchedulerService.CreateScheduler(string code, Action action, float durationInSeconds, SchedulerEndAction endAction)
         {
             if (_actionSchedulers.ContainsKey(code))
             {
@@ -44,7 +44,7 @@ namespace TheForge.Services.Scheduler
         /// Retrieves a scheduler depending on the code specified during its initialization.
         /// </summary>
         [CanBeNull]
-        public Scheduler GetScheduler(string code)
+        Scheduler ISchedulerService.GetScheduler(string code)
         {
             if (_actionSchedulers.TryGetValue(code, out var actionScheduler))
                 return actionScheduler;
@@ -56,7 +56,7 @@ namespace TheForge.Services.Scheduler
         /// <summary>
         /// Destroys a scheduler depending on the code specified during its initialization.
         /// </summary>
-        public void DestroyScheduler(string code)
+        void ISchedulerService.DestroyScheduler(string code)
         {
             if (_actionSchedulers.TryGetValue(code, out var actionScheduler))
             {
@@ -72,7 +72,7 @@ namespace TheForge.Services.Scheduler
         /// <summary>
         /// Destroys all active schedulers, independently of their current state.
         /// </summary>
-        public void DestroyAllSchedulers()
+        void ISchedulerService.DestroyAllSchedulers()
         {
             foreach (var actionScheduler in _actionSchedulers.Values)
             {

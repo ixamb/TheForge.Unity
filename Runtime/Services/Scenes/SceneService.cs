@@ -14,7 +14,7 @@ namespace TheForge.Services.Scenes
     {
         private AsyncOperation _currentOperation;
 
-        public async Task LoadSceneAsync(string sceneName, LoadSceneMode loadMode = LoadSceneMode.Additive)
+        async Task ISceneService.LoadSceneAsync(string sceneName, LoadSceneMode loadMode)
         {
             _currentOperation = SceneManager.LoadSceneAsync(sceneName, loadMode);
             if (_currentOperation == null)
@@ -26,14 +26,14 @@ namespace TheForge.Services.Scenes
             }
         }
         
-        public IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode loadMode, Action onComplete)
+        IEnumerator ISceneService.LoadSceneAsync(string sceneName, LoadSceneMode loadMode, Action onComplete)
         {
             _currentOperation = SceneManager.LoadSceneAsync(sceneName, loadMode);
             yield return new WaitUntil(() => _currentOperation!.isDone);
             onComplete?.Invoke();
         }
         
-        public async Task UnloadSceneAsync(string sceneName, UnloadSceneOptions unloadMode = UnloadSceneOptions.None)
+        async Task ISceneService.UnloadSceneAsync(string sceneName, UnloadSceneOptions unloadMode)
         {
             _currentOperation = SceneManager.UnloadSceneAsync(sceneName, unloadMode);
             if (_currentOperation == null)
@@ -45,13 +45,13 @@ namespace TheForge.Services.Scenes
             }
         }
         
-        public IEnumerator UnloadSceneAsync(string sceneName, Action onComplete, UnloadSceneOptions unloadMode = UnloadSceneOptions.None)
+        IEnumerator ISceneService.UnloadSceneAsync(string sceneName, Action onComplete, UnloadSceneOptions unloadMode)
         {
             _currentOperation = SceneManager.UnloadSceneAsync(sceneName, unloadMode);
             yield return new WaitUntil(() => _currentOperation!.isDone);
             onComplete?.Invoke();
         }
         
-        public float GetOperationProgress() => _currentOperation?.progress ?? 0;
+        float ISceneService.GetOperationProgress() => _currentOperation?.progress ?? 0;
     }
 }

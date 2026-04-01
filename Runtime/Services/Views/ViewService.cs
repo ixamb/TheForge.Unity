@@ -16,7 +16,7 @@ namespace TheForge.Services.Views
         /// Registers a specified view.
         /// <remarks>Even tho the function is a public one due to interface usages, it should mainly be used by views for self registration.</remarks>
         /// </summary>
-        public void RegisterView(IView view)
+        void IViewService.RegisterView(IView view)
         {
             var viewCode = view.GetCode();
             if (string.IsNullOrWhiteSpace(viewCode))
@@ -29,7 +29,7 @@ namespace TheForge.Services.Views
         /// Unregister a specified view.
         /// <remarks>Even tho the function is a public one due to interface usages, it should mainly be used by views for self unregistration.</remarks>
         /// </summary>
-        public void UnregisterView(IView view)
+        void IViewService.UnregisterView(IView view)
         {
             var viewCode = view.GetCode();
             if (string.IsNullOrWhiteSpace(viewCode))
@@ -41,7 +41,7 @@ namespace TheForge.Services.Views
         /// <summary>
         /// Retrieve views based on their active and enabled property.
         /// </summary>
-        public IEnumerable<IView> GetActiveAndEnabledViews()
+        IEnumerable<IView> IViewService.GetActiveAndEnabledViews()
         {
             return _views.Values.Where(view => view.IsVisibleAndActive());
         }
@@ -50,7 +50,7 @@ namespace TheForge.Services.Views
         /// Retrieves a view based on its code, defined on the <c>View</c> object.
         /// <remarks>If you need a typed view without having to manually cast it, consider using the strongly typed <c>GetView(code)</c> function.</remarks>
         /// </summary>
-        public IView GetView(string code)
+        IView IViewService.GetView(string code)
         {
             return _views.GetValueOrDefault(code);
         }
@@ -59,7 +59,7 @@ namespace TheForge.Services.Views
         /// Retrieves a strongly typed view based on its code, defined on the <c>View</c> object.<br />
         /// The required view type has to match the view type defined with the parameter code.
         /// </summary>
-        public TIView GetView<TIView>(string code) where TIView : class, IView
+        TIView IViewService.GetView<TIView>(string code)
         {
             if (_views.TryGetValue(code, out var view))
             {
@@ -71,7 +71,7 @@ namespace TheForge.Services.Views
         /// <summary>
         /// Retrieves a strongly typed view based on its type.
         /// </summary>
-        public TIView GetView<TIView>() where TIView : class, IView
+        TIView IViewService.GetView<TIView>()
         {
             return _views.Values.OfType<TIView>().FirstOrDefault();
         }

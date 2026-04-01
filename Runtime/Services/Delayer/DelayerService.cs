@@ -24,7 +24,7 @@ namespace TheForge.Services.Delayer
         /// Retrieves the delayer Object based on the code used to create it.
         /// </summary>
         [CanBeNull]
-        public Delayer Get(string code)
+        Delayer IDelayerService.Get(string code)
         {
             return _actionDelayers.GetValueOrDefault(code);
         }
@@ -32,7 +32,7 @@ namespace TheForge.Services.Delayer
         /// <summary>
         /// Creates a delayer. A code can be specified to retrieve information about the delayer Object or act on it.
         /// </summary>
-        public void Delay(float durationInSeconds, Action action, string code = "")
+        void IDelayerService.Delay(float durationInSeconds, Action action, string code = "")
         {
             var delayerObject = new GameObject($"ActionDelayer_{(code == string.Empty ? Guid.NewGuid() : code)}");
             var delayer = delayerObject.AddComponent<Delayer>();
@@ -45,7 +45,7 @@ namespace TheForge.Services.Delayer
         /// <summary>
         /// Cancels a delay function based on the provided code.
         /// </summary>
-        public void Cancel(string code)
+        void IDelayerService.Cancel(string code)
         {
             if (_actionDelayers.Remove(code, out var delayer))
             {
@@ -56,7 +56,7 @@ namespace TheForge.Services.Delayer
         /// <summary>
         /// Cancels all required delay functions.
         /// </summary>
-        public void CancelAll()
+        void IDelayerService.CancelAll()
         {
             foreach (var actionDelayer in _actionDelayers.Values)
             {

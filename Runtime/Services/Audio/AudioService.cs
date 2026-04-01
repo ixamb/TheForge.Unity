@@ -39,7 +39,7 @@ namespace TheForge.Services.Audio
         /// The AudioClip will automatically be positioned on a free AudioSource.
         /// A source is considered as being free if it has no audio OR if the audio on it isn't playing.
         /// </summary>
-        public void LoadAudio(AudioLoadDto audioLoadDto)
+        void IAudioService.LoadAudio(AudioLoadDto audioLoadDto)
         {
             var clipEntry = _properties.GetAudioClipEntry(audioLoadDto.Code);
             if (clipEntry?.AudioClip is null)
@@ -55,32 +55,32 @@ namespace TheForge.Services.Audio
         /// <summary>
         /// Pause the audio linked to a specified key.
         /// </summary>
-        public void PauseAudio(string code) => GetPlayingAudioSourceEntry(code)?.PauseAudio();
+        void IAudioService.PauseAudio(string code) => GetPlayingAudioSourceEntry(code)?.PauseAudio();
         
         /// <summary>
         /// Resume the audio linked to a specified key.
         /// </summary>
-        public void ResumeAudio(string code) => GetPlayingAudioSourceEntry(code)?.ResumeAudio();
+        void IAudioService.ResumeAudio(string code) => GetPlayingAudioSourceEntry(code)?.ResumeAudio();
         
         /// <summary>
         /// Stop the audio linked to a specified key.
         /// </summary>
-        public void StopAudio(string code) => GetPlayingAudioSourceEntry(code)?.StopAudio();
+        void IAudioService.StopAudio(string code) => GetPlayingAudioSourceEntry(code)?.StopAudio();
         
         /// <summary>
         /// Stop all audios, unrelated to their key or type. 
         /// </summary>
-        public void StopAllAudios() => _audioSourceEntries.ForEach(entry => entry.StopAudio());
+        void IAudioService.StopAllAudios() => _audioSourceEntries.ForEach(entry => entry.StopAudio());
         
         /// <summary>
         /// Restart the audio linked to a specified key.
         /// </summary>
-        public void RestartAudio(string code) => GetPlayingAudioSourceEntry(code)?.RestartAudio();
+        void IAudioService.RestartAudio(string code) => GetPlayingAudioSourceEntry(code)?.RestartAudio();
 
         /// <summary>
         /// Change the volume of all the audio sources with a specified type.
         /// </summary>
-        public void ChangeVolume(AudioType audioType, float volume)
+        void IAudioService.ChangeVolume(AudioType audioType, float volume)
         {
             volume = _audioSourceEntries.Where(entry => entry.AudioType == audioType)
                 .Aggregate(volume, (current, entry) => Mathf.Clamp01(current));
@@ -89,7 +89,7 @@ namespace TheForge.Services.Audio
         /// <summary>
         /// Change the audio volume linked to a specified key.
         /// </summary>
-        public void ChangeVolume(string code, float volume) => GetPlayingAudioSourceEntry(code)?.ChangeVolume(volume);
+        void IAudioService.ChangeVolume(string code, float volume) => GetPlayingAudioSourceEntry(code)?.ChangeVolume(volume);
                 
         [CanBeNull] private AudioSourceEntry GetPlayingAudioSourceEntry(string code)
             => _audioSourceEntries.FirstOrDefault(entry => entry.Code.Equals(code));

@@ -31,18 +31,18 @@ namespace TheForge.Services.LocalSave
         /// Inserts an object into the input passed as a parameter.
         /// Note that if an input with the same key already existed in the JSON, its content will be overwritten by the object passed as a parameter.
         /// </summary>
-        public void Set<T>(string key, T value, bool autoSave = true)
+        void ILocalSaveService.Set<T>(string key, T value, bool autoSave = true)
         {
             _container.Values[key] = value;
             if (autoSave)
-                Save();
+                ((ILocalSaveService)this).Save();
         }
 
         /// <summary>
         /// Retrieves the JSON input with the key passed as a parameter. The input type must match the function object type.
         /// </summary>
         // ReSharper disable Unity.PerformanceAnalysis
-        public T Get<T>(string key, T defaultValue = default)
+        T ILocalSaveService.Get<T>(string key, T defaultValue = default)
         {
             if (!_container.Values.TryGetValue(key, out var raw))
                 return defaultValue;
@@ -67,7 +67,7 @@ namespace TheForge.Services.LocalSave
         /// Forces saving the JSON, useful if you did not enable automatic saving when calling <c>Set()</c>.
         /// </summary>
         // ReSharper disable Unity.PerformanceAnalysis
-        public void Save()
+        void ILocalSaveService.Save()
         {
             var path = GetPath();
             var json = JsonConvert.SerializeObject(_container, Formatting.Indented);
@@ -80,7 +80,7 @@ namespace TheForge.Services.LocalSave
         /// Deletes the whole saved data.
         /// <remarks><b>The operation cannot be undone!</b></remarks>
         /// </summary>
-        public void Delete()
+        void ILocalSaveService.Delete()
         {
             File.Delete(GetPath());
         }
